@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Lista de Tareas</title>
+</head>
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #f0f0f0;
+        margin: 0;
+        padding: 0;
+    }
+
+    .container {
+        max-width: 400px;
+        margin: 20px auto;
+        background-color: #fff;
+        padding: 20px;
+        border-radius: 5px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    }
+
+    h1 {
+        text-align: center;
+        color: #333;
+    }
+
+    #task-form {
+        display: flex;
+        margin-bottom: 20px;
+    }
+
+    #new-task {
+        flex-grow: 1;
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+    }
+
+    #new-task:focus {
+        outline: none;
+        border-color: #007bff;
+    }
+
+    button[type="submit"] {
+        background-color: #007bff;
+        color: #fff;
+        border: none;
+        border-radius: 5px;
+        padding: 10px 20px;
+        cursor: pointer;
+    }
+
+    button[type="submit"]:hover {
+        background-color: #0056b3;
+    }
+
+    ul {
+        list-style-type: none;
+        padding: 0;
+    }
+
+    li {
+        display: flex;
+        align-items: center;
+        margin-bottom: 10px;
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        background-color: #fff;
+    }
+
+    .completed {
+        text-decoration: line-through;
+        color: #777;
+    }
+
+    .task-text {
+        flex-grow: 1;
+        margin-left: 10px;
+    }
+
+    .delete-button {
+        background-color: #ff4d4d;
+        color: #fff;
+        border: none;
+        border-radius: 5px;
+        padding: 5px 10px;
+        margin-left: 10px;
+        cursor: pointer;
+    }
+
+    .delete-button:hover {
+        background-color: #ff0000;
+    }
+</style>
+
+<body>
+    <div class="container">
+        <h1>Lista de Tareas</h1>
+        <form id="task-form">
+            <input type="text" id="new-task" placeholder="Agregar nueva tarea" required>
+            <button type="submit">Agregar</button>
+        </form>
+        <ul id="task-list">
+
+        </ul>
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const taskForm = document.getElementById("task-form");
+            const taskList = document.getElementById("task-list");
+
+            taskForm.addEventListener("submit", function (e) {
+                e.preventDefault();
+                const taskText = document.getElementById("new-task").value;
+
+                if (taskText.trim() !== "") {
+
+                    const listItem = document.createElement("li");
+                    listItem.innerHTML = `
+                        <input type="checkbox" class="task-checkbox">
+                        <span class="task-text">${taskText}</span>
+                        <button class="delete-button">X</button>
+                    `;
+
+                    taskList.appendChild(listItem);
+                    document.getElementById("new-task").value = "";
+
+
+                    const deleteButton = listItem.querySelector(".delete-button");
+                    deleteButton.addEventListener("click", function () {
+                        taskList.removeChild(listItem);
+                    });
+
+                    const taskCheckbox = listItem.querySelector(".task-checkbox");
+                    taskCheckbox.addEventListener("change", function () {
+                        if (taskCheckbox.checked) {
+                            listItem.classList.add("completed");
+                        } else {
+                            listItem.classList.remove("completed");
+                        }
+                    });
+                }
+            });
+        });
+    </script>
+</body>
+
+</html>
